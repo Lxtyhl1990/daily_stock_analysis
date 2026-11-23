@@ -1970,131 +1970,39 @@ class GeminiAnalyzer:
 
 ## 输出格式：决策仪表盘 JSON
 
-请严格按照以下 JSON 格式输出，这是一个完整的【决策仪表盘】：
+请严格按照以下 JSON 格式输出，只给方向判断和一句话理由，不要展开详细分析：
 
 ```json
 {
     "stock_name": "股票中文名称",
     "sentiment_score": 0-100整数,
-    "trend_prediction": "强烈看多/看多/震荡/看空/强烈看空",
-    "operation_advice": "买入/加仓/持有/减仓/卖出/观望",
+    "trend_prediction": "看多/看空/震荡",
+    "operation_advice": "买入/持有/卖出",
     "decision_type": "buy/hold/sell",
-    "action": "buy/add/hold/reduce/sell/watch/avoid/alert",
-    "guardrail_reason": "当分数区间与最终 action 不一致时填写降级/升级原因，否则留空",
-    "confidence_level": "高/中/低",
+    "analysis_summary": "一句话理由（30字以内，只给方向判断的依据）",
 
     "dashboard": {
         "core_conclusion": {
-            "one_sentence": "一句话核心结论（30字以内，直接告诉用户做什么）",
-            "signal_type": "🟢买入信号/🟡持有观望/🔴卖出信号/⚠️风险警告",
-            "time_sensitivity": "立即行动/今日内/本周内/不急",
-            "position_advice": {
-                "no_position": "空仓者建议：具体操作指引",
-                "has_position": "持仓者建议：具体操作指引"
-            }
+            "one_sentence": "同一句话理由"
         },
-
-        "data_perspective": {
-            "trend_status": {
-                "ma_alignment": "均线排列状态描述",
-                "is_bullish": true/false,
-                "trend_score": 0-100
-            },
-            "price_position": {
-                "current_price": 当前价格数值,
-                "ma5": MA5数值,
-                "ma10": MA10数值,
-                "ma20": MA20数值,
-                "bias_ma5": 乖离率百分比数值,
-                "bias_status": "安全/警戒/危险",
-                "support_level": 支撑位价格,
-                "resistance_level": 压力位价格
-            },
-            "volume_analysis": {
-                "volume_ratio": 量比数值,
-                "volume_status": "放量/缩量/平量",
-                "turnover_rate": 换手率百分比,
-                "volume_meaning": "量能含义解读（如：缩量回调表示抛压减轻）"
-            },
-            "chip_structure": {
-                "profit_ratio": 获利比例,
-                "avg_cost": 平均成本,
-                "concentration": 筹码集中度,
-                "chip_health": "健康/一般/警惕"
-            }
-        },
-
         "intelligence": {
-            "latest_news": "【最新消息】近期重要新闻摘要",
-            "risk_alerts": ["风险点1：具体描述", "风险点2：具体描述"],
-            "positive_catalysts": ["利好1：具体描述", "利好2：具体描述"],
-            "earnings_outlook": "业绩预期分析（基于年报预告、业绩快报等）",
-            "sentiment_summary": "舆情情绪一句话总结"
+            "risk_alerts": []
         },
-
         "battle_plan": {
             "sniper_points": {
-                "ideal_buy": "理想买入点：XX元（在MA5附近）",
-                "secondary_buy": "次优买入点：XX元（在MA10附近）",
-                "stop_loss": "止损位：XX元（跌破MA20或X%）",
-                "take_profit": "目标位：XX元（前高/整数关口）"
-            },
-            "position_strategy": {
-                "suggested_position": "建议仓位：X成",
-                "entry_plan": "分批建仓策略描述",
-                "risk_control": "风控策略描述"
-            },
-            "action_checklist": [
-                "✅/⚠️/❌ 检查项1：多头排列",
-                "✅/⚠️/❌ 检查项2：乖离率合理（强势趋势可放宽）",
-                "✅/⚠️/❌ 检查项3：量能配合",
-                "✅/⚠️/❌ 检查项4：无重大利空",
-                "✅/⚠️/❌ 检查项5：筹码健康",
-                "✅/⚠️/❌ 检查项6：PE估值合理"
-            ]
+                "stop_loss": "止损位：XX元"
+            }
         },
-
         "phase_decision": {
             "phase_context": {"phase": "premarket/intraday/lunch_break/closing_auction/postmarket/non_trading/unknown"},
             "action_window": "盘前计划/盘中跟踪/午间确认/收盘前风控/盘后复盘/非交易日观察",
             "immediate_action": "立即行动/等待确认/观察/止损止盈预警/禁止追高/无盘中动作",
-            "watch_conditions": ["观察条件1", "观察条件2"],
+            "watch_conditions": ["观察条件1"],
             "next_check_time": "下一次检查点或市场本地时间",
             "confidence_reason": "置信度理由，说明阶段和数据质量限制",
-            "data_limitations": ["阶段或数据质量限制1", "阶段或数据质量限制2"]
-        },
-
-        "signal_attribution": {
-            "technical_indicators": 技术指标贡献度(0-100),
-            "news_sentiment": 新闻舆情贡献度(0-100),
-            "fundamentals": 基本面贡献度(0-100),
-            "market_conditions": 市场环境贡献度(0-100),
-            "strongest_bullish_signal": "最强看多信号名称",
-            "strongest_bearish_signal": "最强看空信号名称"
+            "data_limitations": ["阶段或数据质量限制1"]
         }
-    },
-
-    "analysis_summary": "100字综合分析摘要",
-    "key_points": "3-5个核心看点，逗号分隔",
-    "risk_warning": "风险提示",
-    "buy_reason": "操作理由，引用交易理念",
-
-    "trend_analysis": "走势形态分析",
-    "short_term_outlook": "短期1-3日展望",
-    "medium_term_outlook": "中期1-2周展望",
-    "technical_analysis": "技术面综合分析",
-    "ma_analysis": "均线系统分析",
-    "volume_analysis": "量能分析",
-    "pattern_analysis": "K线形态分析",
-    "fundamental_analysis": "基本面分析",
-    "sector_position": "板块行业分析",
-    "company_highlights": "公司亮点/风险",
-    "news_summary": "新闻摘要",
-    "market_sentiment": "市场情绪",
-    "hot_topics": "相关热点",
-
-    "search_performed": true/false,
-    "data_sources": "数据来源说明"
+    }
 }
 ```
 
@@ -2130,11 +2038,10 @@ class GeminiAnalyzer:
 
 ## 决策仪表盘核心原则
 
-1. **核心结论先行**：一句话说清该买该卖
-2. **分持仓建议**：空仓者和持仓者给不同建议
-3. **精确狙击点**：必须给出具体价格，不说模糊的话
-4. **检查清单可视化**：用 ✅⚠️❌ 明确显示每项检查结果
-5. **风险优先级**：舆情中的风险点要醒目标出
+1. **核心结论先行**：一句话说清看多还是看空，并给一句话理由
+2. **只给方向**：不展开详细分析，不输出分持仓建议、入场点、检查清单等细节字段
+3. **止损必给**：`dashboard.battle_plan.sniper_points.stop_loss` 必须给出具体止损价
+4. **风险优先级**：舆情中的风险点要醒目标出；无明确风险点时 `risk_alerts` 为空数组
 
 ## 可操作性与稳定性约束
 
@@ -2144,7 +2051,6 @@ class GeminiAnalyzer:
 - 只有在接近支撑确认或有效突破压力，且资金流/量价配合时，才能给出买入；接近压力且资金流出时不得追买。
 - 只有在跌破关键支撑、主力资金持续流出或风险显著放大时，才能给出卖出/减仓。
 - 必须输出 `dashboard.phase_decision` 七字段；盘中/午休/临近收盘要给出当前动作、观察条件和下一次检查点。
-- 建议输出可选展示字段 `dashboard.signal_attribution` 六字段；解释推荐理由的构成，包括技术指标、新闻舆情、基本面、市场环境的贡献度，以及最强看多/看空信号。
 - 盘前、非交易日或未知阶段不得伪造今日盘中走势；quote/daily_bars/technical 存在 stale、fallback、missing、fetch_failed、partial 或 estimated 时，`confidence_level` 不得为高。"""
 
     SYSTEM_PROMPT = """你是一位{market_placeholder}投资分析师，负责生成专业的【决策仪表盘】分析报告。
@@ -2158,131 +2064,39 @@ class GeminiAnalyzer:
 
 ## 输出格式：决策仪表盘 JSON
 
-请严格按照以下 JSON 格式输出，这是一个完整的【决策仪表盘】：
+请严格按照以下 JSON 格式输出，只给方向判断和一句话理由，不要展开详细分析：
 
 ```json
 {
     "stock_name": "股票中文名称",
     "sentiment_score": 0-100整数,
-    "trend_prediction": "强烈看多/看多/震荡/看空/强烈看空",
-    "operation_advice": "买入/加仓/持有/减仓/卖出/观望",
+    "trend_prediction": "看多/看空/震荡",
+    "operation_advice": "买入/持有/卖出",
     "decision_type": "buy/hold/sell",
-    "action": "buy/add/hold/reduce/sell/watch/avoid/alert",
-    "guardrail_reason": "当分数区间与最终 action 不一致时填写降级/升级原因，否则留空",
-    "confidence_level": "高/中/低",
+    "analysis_summary": "一句话理由（30字以内，只给方向判断的依据）",
 
     "dashboard": {
         "core_conclusion": {
-            "one_sentence": "一句话核心结论（30字以内，直接告诉用户做什么）",
-            "signal_type": "🟢买入信号/🟡持有观望/🔴卖出信号/⚠️风险警告",
-            "time_sensitivity": "立即行动/今日内/本周内/不急",
-            "position_advice": {
-                "no_position": "空仓者建议：具体操作指引",
-                "has_position": "持仓者建议：具体操作指引"
-            }
+            "one_sentence": "同一句话理由"
         },
-
-        "data_perspective": {
-            "trend_status": {
-                "ma_alignment": "均线排列状态描述",
-                "is_bullish": true/false,
-                "trend_score": 0-100
-            },
-            "price_position": {
-                "current_price": 当前价格数值,
-                "ma5": MA5数值,
-                "ma10": MA10数值,
-                "ma20": MA20数值,
-                "bias_ma5": 乖离率百分比数值,
-                "bias_status": "安全/警戒/危险",
-                "support_level": 支撑位价格,
-                "resistance_level": 压力位价格
-            },
-            "volume_analysis": {
-                "volume_ratio": 量比数值,
-                "volume_status": "放量/缩量/平量",
-                "turnover_rate": 换手率百分比,
-                "volume_meaning": "量能含义解读（如：缩量回调表示抛压减轻）"
-            },
-            "chip_structure": {
-                "profit_ratio": 获利比例,
-                "avg_cost": 平均成本,
-                "concentration": 筹码集中度,
-                "chip_health": "健康/一般/警惕"
-            }
-        },
-
         "intelligence": {
-            "latest_news": "【最新消息】近期重要新闻摘要",
-            "risk_alerts": ["风险点1：具体描述", "风险点2：具体描述"],
-            "positive_catalysts": ["利好1：具体描述", "利好2：具体描述"],
-            "earnings_outlook": "业绩预期分析（基于年报预告、业绩快报等）",
-            "sentiment_summary": "舆情情绪一句话总结"
+            "risk_alerts": []
         },
-
         "battle_plan": {
             "sniper_points": {
-                "ideal_buy": "理想入场位：XX元（满足主要技能触发条件）",
-                "secondary_buy": "次优入场位：XX元（更保守或确认后执行）",
-                "stop_loss": "止损位：XX元（失效条件或X%风险）",
-                "take_profit": "目标位：XX元（按阻力位/风险回报比制定）"
-            },
-            "position_strategy": {
-                "suggested_position": "建议仓位：X成",
-                "entry_plan": "分批建仓策略描述",
-                "risk_control": "风控策略描述"
-            },
-            "action_checklist": [
-                "✅/⚠️/❌ 检查项1：当前结构是否满足激活技能条件",
-                "✅/⚠️/❌ 检查项2：入场位置与风险回报是否合理",
-                "✅/⚠️/❌ 检查项3：量价/波动/筹码是否支持判断",
-                "✅/⚠️/❌ 检查项4：无重大利空",
-                "✅/⚠️/❌ 检查项5：仓位与止损计划明确",
-                "✅/⚠️/❌ 检查项6：估值/业绩/催化与结论匹配"
-            ]
+                "stop_loss": "止损位：XX元"
+            }
         },
-
         "phase_decision": {
             "phase_context": {"phase": "premarket/intraday/lunch_break/closing_auction/postmarket/non_trading/unknown"},
             "action_window": "盘前计划/盘中跟踪/午间确认/收盘前风控/盘后复盘/非交易日观察",
             "immediate_action": "立即行动/等待确认/观察/止损止盈预警/禁止追高/无盘中动作",
-            "watch_conditions": ["观察条件1", "观察条件2"],
+            "watch_conditions": ["观察条件1"],
             "next_check_time": "下一次检查点或市场本地时间",
             "confidence_reason": "置信度理由，说明阶段和数据质量限制",
-            "data_limitations": ["阶段或数据质量限制1", "阶段或数据质量限制2"]
-        },
-
-        "signal_attribution": {
-            "technical_indicators": 技术指标贡献度(0-100),
-            "news_sentiment": 新闻舆情贡献度(0-100),
-            "fundamentals": 基本面贡献度(0-100),
-            "market_conditions": 市场环境贡献度(0-100),
-            "strongest_bullish_signal": "最强看多信号名称",
-            "strongest_bearish_signal": "最强看空信号名称"
+            "data_limitations": ["阶段或数据质量限制1"]
         }
-    },
-
-    "analysis_summary": "100字综合分析摘要",
-    "key_points": "3-5个核心看点，逗号分隔",
-    "risk_warning": "风险提示",
-    "buy_reason": "操作理由，引用激活技能或风险框架",
-
-    "trend_analysis": "走势形态分析",
-    "short_term_outlook": "短期1-3日展望",
-    "medium_term_outlook": "中期1-2周展望",
-    "technical_analysis": "技术面综合分析",
-    "ma_analysis": "均线系统分析",
-    "volume_analysis": "量能分析",
-    "pattern_analysis": "K线形态分析",
-    "fundamental_analysis": "基本面分析",
-    "sector_position": "板块行业分析",
-    "company_highlights": "公司亮点/风险",
-    "news_summary": "新闻摘要",
-    "market_sentiment": "市场情绪",
-    "hot_topics": "相关热点",
-
-    "search_performed": true/false,
-    "data_sources": "数据来源说明"
+    }
 }
 ```
 
@@ -2316,11 +2130,10 @@ class GeminiAnalyzer:
 
 ## 决策仪表盘核心原则
 
-1. **核心结论先行**：一句话说清该买该卖
-2. **分持仓建议**：空仓者和持仓者给不同建议
-3. **精确狙击点**：必须给出具体价格，不说模糊的话
-4. **检查清单可视化**：用 ✅⚠️❌ 明确显示每项检查结果
-5. **风险优先级**：舆情中的风险点要醒目标出
+1. **核心结论先行**：一句话说清看多还是看空，并给一句话理由
+2. **只给方向**：不展开详细分析，不输出分持仓建议、入场点、检查清单等细节字段
+3. **止损必给**：`dashboard.battle_plan.sniper_points.stop_loss` 必须给出具体止损价
+4. **风险优先级**：舆情中的风险点要醒目标出；无明确风险点时 `risk_alerts` 为空数组
 
 ## 可操作性与稳定性约束
 
@@ -2330,7 +2143,6 @@ class GeminiAnalyzer:
 - 只有在接近支撑确认或有效突破压力，且资金流/量价配合时，才能给出买入；接近压力且资金流出时不得追买。
 - 只有在跌破关键支撑、主力资金持续流出或风险显著放大时，才能给出卖出/减仓。
 - 必须输出 `dashboard.phase_decision` 七字段；盘中/午休/临近收盘要给出当前动作、观察条件和下一次检查点。
-- 建议输出可选展示字段 `dashboard.signal_attribution` 六字段；解释推荐理由的构成，包括技术指标、新闻舆情、基本面、市场环境的贡献度，以及最强看多/看空信号。
 - 盘前、非交易日或未知阶段不得伪造今日盘中走势；quote/daily_bars/technical 存在 stale、fallback、missing、fetch_failed、partial 或 estimated 时，`confidence_level` 不得为高。"""
 
     # English templates (REPORT_LANGUAGE=en/ko). They mirror LEGACY_DEFAULT_SYSTEM_PROMPT /
@@ -2338,68 +2150,24 @@ class GeminiAnalyzer:
     # by a Chinese-dominant prompt (#2352). JSON keys and enum values must stay identical.
     _DASHBOARD_JSON_HEAD_EN = """## Output Format: Decision Dashboard JSON
 
-Output strictly in the following JSON format. This is a complete Decision Dashboard:
+Output strictly in the following JSON format. Only give the direction call and a one-sentence reason; do not expand into detailed analysis:
 
 ```json
 {
     "stock_name": "Stock name (common English company name if known)",
     "sentiment_score": integer 0-100,
-    "trend_prediction": "Strong Bullish/Bullish/Sideways/Bearish/Strong Bearish",
-    "operation_advice": "Buy/Add Position/Hold/Reduce/Sell/Watch",
+    "trend_prediction": "Bullish/Bearish/Sideways",
+    "operation_advice": "Buy/Hold/Sell",
     "decision_type": "buy/hold/sell",
-    "action": "buy/add/hold/reduce/sell/watch/avoid/alert",
-    "guardrail_reason": "Reason for the downgrade/upgrade when the score band and the final action differ; otherwise leave empty",
-    "confidence_level": "High/Medium/Low",
+    "analysis_summary": "One-sentence reason (at most 30 words)",
 
     "dashboard": {
         "core_conclusion": {
-            "one_sentence": "One-sentence core conclusion (at most 30 words, tell the user exactly what to do)",
-            "signal_type": "🟢Buy Signal/🟡Hold and Watch/🔴Sell Signal/⚠️Risk Warning",
-            "time_sensitivity": "Act now/Today/This week/No rush",
-            "position_advice": {
-                "no_position": "Advice for those without a position: concrete action",
-                "has_position": "Advice for holders: concrete action"
-            }
+            "one_sentence": "Same one-sentence reason"
         },
-
-        "data_perspective": {
-            "trend_status": {
-                "ma_alignment": "Description of the moving-average alignment",
-                "is_bullish": true/false,
-                "trend_score": 0-100
-            },
-            "price_position": {
-                "current_price": current price number,
-                "ma5": MA5 number,
-                "ma10": MA10 number,
-                "ma20": MA20 number,
-                "bias_ma5": bias percentage number,
-                "bias_status": "Safe/Caution/Danger",
-                "support_level": support price,
-                "resistance_level": resistance price
-            },
-            "volume_analysis": {
-                "volume_ratio": volume ratio number,
-                "volume_status": "High volume/Low volume/Normal volume",
-                "turnover_rate": turnover rate percentage,
-                "volume_meaning": "Interpretation of volume (e.g. a low-volume pullback means selling pressure is easing)"
-            },
-            "chip_structure": {
-                "profit_ratio": profit ratio,
-                "avg_cost": average cost,
-                "concentration": chip concentration,
-                "chip_health": "Healthy/Average/Caution"
-            }
-        },
-
         "intelligence": {
-            "latest_news": "[Latest News] summary of recent important news",
-            "risk_alerts": ["Risk 1: specific description", "Risk 2: specific description"],
-            "positive_catalysts": ["Catalyst 1: specific description", "Catalyst 2: specific description"],
-            "earnings_outlook": "Earnings outlook (based on earnings previews, flash reports, etc.)",
-            "sentiment_summary": "One-sentence summary of news sentiment"
+            "risk_alerts": []
         },
-
         "battle_plan": {
             "sniper_points": {
 """
@@ -2409,54 +2177,22 @@ Output strictly in the following JSON format. This is a complete Decision Dashbo
             "phase_context": {"phase": "premarket/intraday/lunch_break/closing_auction/postmarket/non_trading/unknown"},
             "action_window": "Pre-market plan/Intraday tracking/Midday confirmation/Pre-close risk control/Post-market review/Non-trading-day watch",
             "immediate_action": "Act now/Wait for confirmation/Watch/Stop-loss or take-profit alert/Do not chase/No intraday action",
-            "watch_conditions": ["Watch condition 1", "Watch condition 2"],
+            "watch_conditions": ["Watch condition 1"],
             "next_check_time": "Next checkpoint or market-local time",
             "confidence_reason": "Reason for the confidence level, including phase and data-quality limits",
-            "data_limitations": ["Phase or data-quality limitation 1", "Phase or data-quality limitation 2"]
-        },
-
-        "signal_attribution": {
-            "technical_indicators": technical indicator contribution (0-100),
-            "news_sentiment": news sentiment contribution (0-100),
-            "fundamentals": fundamentals contribution (0-100),
-            "market_conditions": market conditions contribution (0-100),
-            "strongest_bullish_signal": "Name of the strongest bullish signal",
-            "strongest_bearish_signal": "Name of the strongest bearish signal"
+            "data_limitations": ["Phase or data-quality limitation 1"]
         }
-    },
-
-    "analysis_summary": "Overall analysis summary (about 100 words)",
-    "key_points": "3-5 key points, comma separated",
-    "risk_warning": "Risk warning",
-    "buy_reason": "BUY_REASON_PLACEHOLDER",
-
-    "trend_analysis": "Price pattern analysis",
-    "short_term_outlook": "Short-term outlook (1-3 days)",
-    "medium_term_outlook": "Medium-term outlook (1-2 weeks)",
-    "technical_analysis": "Overall technical analysis",
-    "ma_analysis": "Moving-average analysis",
-    "volume_analysis": "Volume analysis",
-    "pattern_analysis": "Candlestick pattern analysis",
-    "fundamental_analysis": "Fundamental analysis",
-    "sector_position": "Sector and industry analysis",
-    "company_highlights": "Company highlights/risks",
-    "news_summary": "News summary",
-    "market_sentiment": "Market sentiment",
-    "hot_topics": "Related hot topics",
-
-    "search_performed": true/false,
-    "data_sources": "Description of data sources"
+    }
 }
 ```
 """
 
     _DASHBOARD_PRINCIPLES_EN = """## Decision Dashboard Core Principles
 
-1. **Conclusion first**: say clearly in one sentence whether to buy or sell
-2. **Position-specific advice**: give different advice to those without a position and to holders
-3. **Precise sniper levels**: always give concrete prices, never vague wording
-4. **Visual checklist**: use ✅⚠️❌ to show the result of each check
-5. **Risk priority**: highlight risk points from the news clearly
+1. **Conclusion first**: say clearly in one sentence whether bullish or bearish, with a one-sentence reason
+2. **Direction only**: do not expand into detailed analysis; do not output position-specific advice, entry points, or checklists
+3. **Stop-loss required**: always give a concrete stop-loss price in `dashboard.battle_plan.sniper_points.stop_loss`
+4. **Risk priority**: highlight risk points from the news clearly; use an empty `risk_alerts` array when there is no clear risk point
 
 ## Actionability and Stability Constraints
 
@@ -2466,7 +2202,6 @@ Output strictly in the following JSON format. This is a complete Decision Dashbo
 - Only give Buy near a confirmed support or after a valid breakout above resistance, with capital flow/volume confirming; never chase near resistance while capital flows out.
 - Only give Sell/Reduce after a break below key support, persistent main capital outflow, or a clear increase in risk.
 - `dashboard.phase_decision` must contain all seven fields; intraday, lunch break and near the close must give the current action, watch conditions and the next checkpoint.
-- The optional display field `dashboard.signal_attribution` (six fields) is recommended; explain what drives the recommendation, including the contribution of technical indicators, news sentiment, fundamentals and market conditions, and the strongest bullish/bearish signals.
 - Pre-market, on non-trading days or in an unknown phase, never fabricate today's intraday move; when quote/daily_bars/technical is stale, fallback, missing, fetch_failed, partial or estimated, `confidence_level` must not be High."""
 
     LEGACY_DEFAULT_SYSTEM_PROMPT_EN = """You are a trend-trading focused {market_placeholder} analyst responsible for producing a professional Decision Dashboard analysis report.
@@ -2477,28 +2212,11 @@ Output strictly in the following JSON format. This is a complete Decision Dashbo
 
 """ + CANONICAL_DECISION_SCALE_PROMPT_EN + """
 
-""" + _DASHBOARD_JSON_HEAD_EN + """                "ideal_buy": "Ideal buy point: XX (near MA5)",
-                "secondary_buy": "Secondary buy point: XX (near MA10)",
-                "stop_loss": "Stop-loss: XX (break below MA20 or X%)",
-                "take_profit": "Target: XX (previous high/round-number level)"
-            },
-            "position_strategy": {
-                "suggested_position": "Suggested position: X/10",
-                "entry_plan": "Description of the staged entry plan",
-                "risk_control": "Description of the risk-control strategy"
-            },
-            "action_checklist": [
-                "✅/⚠️/❌ Check 1: bullish alignment",
-                "✅/⚠️/❌ Check 2: reasonable bias (may be relaxed for strong trends)",
-                "✅/⚠️/❌ Check 3: volume confirms",
-                "✅/⚠️/❌ Check 4: no major negative news",
-                "✅/⚠️/❌ Check 5: healthy chip structure",
-                "✅/⚠️/❌ Check 6: reasonable PE valuation"
-            ]
+""" + _DASHBOARD_JSON_HEAD_EN + """
+                "stop_loss": "Stop-loss price, e.g. XX"
+            }
         },
-""" + _DASHBOARD_JSON_TAIL_EN.replace(
-        "BUY_REASON_PLACEHOLDER", "Reason for the action, citing the trading principles"
-    ) + """
+""" + _DASHBOARD_JSON_TAIL_EN + """
 ## Scoring Criteria
 
 ### Strong Buy (80-100):
@@ -2540,28 +2258,11 @@ Output strictly in the following JSON format. This is a complete Decision Dashbo
 
 """ + CANONICAL_DECISION_SCALE_PROMPT_EN + """
 
-""" + _DASHBOARD_JSON_HEAD_EN + """                "ideal_buy": "Ideal entry: XX (main skill trigger conditions met)",
-                "secondary_buy": "Secondary entry: XX (more conservative or after confirmation)",
-                "stop_loss": "Stop-loss: XX (invalidation condition or X% risk)",
-                "take_profit": "Target: XX (based on resistance/risk-reward ratio)"
-            },
-            "position_strategy": {
-                "suggested_position": "Suggested position: X/10",
-                "entry_plan": "Description of the staged entry plan",
-                "risk_control": "Description of the risk-control strategy"
-            },
-            "action_checklist": [
-                "✅/⚠️/❌ Check 1: current structure meets the active skill conditions",
-                "✅/⚠️/❌ Check 2: entry position and risk-reward are reasonable",
-                "✅/⚠️/❌ Check 3: volume/volatility/chips support the view",
-                "✅/⚠️/❌ Check 4: no major negative news",
-                "✅/⚠️/❌ Check 5: clear position size and stop-loss plan",
-                "✅/⚠️/❌ Check 6: valuation/earnings/catalysts match the conclusion"
-            ]
+""" + _DASHBOARD_JSON_HEAD_EN + """
+                "stop_loss": "Stop-loss price, e.g. XX"
+            }
         },
-""" + _DASHBOARD_JSON_TAIL_EN.replace(
-        "BUY_REASON_PLACEHOLDER", "Reason for the action, citing the active skills or risk framework"
-    ) + """
+""" + _DASHBOARD_JSON_TAIL_EN + """
 ## Scoring Criteria
 
 ### Strong Buy (80-100):

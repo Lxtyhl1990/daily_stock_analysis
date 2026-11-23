@@ -1560,14 +1560,16 @@ Focus on index trend, liquidity, and sector rotation to shape the next-session t
             else:
                 label = "defensive"
         else:
-            if score >= 70:
-                label = "强势"
-            elif score >= 55:
+            if score >= 80:
+                label = "火热"
+            elif score >= 60:
                 label = "偏暖"
             elif score >= 40:
                 label = "震荡"
+            elif score >= 20:
+                label = "偏冷"
             else:
-                label = "偏弱"
+                label = "冰点"
         return {
             "score": score,
             "temperature_label": label,
